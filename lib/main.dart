@@ -1,4 +1,7 @@
 import 'package:billing_application/provider/item.dart';
+import 'package:billing_application/screens/Edit_Info.dart';
+import 'package:billing_application/screens/home_page.dart';
+import 'package:billing_application/screens/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,41 +21,45 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Billling App',
-      home: SafeArea(child: HomePage()),
+      home: SafeArea(child: MainPage()),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainPageState extends State<MainPage> {
 
-
+  var currentTab=[
+    HomePage(),
+    EditInformation(),
+    UserInfo()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Billing'),
-      ),
-      body: ,
+      body: currentTab[context.watch<ItemCount>().currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.fastfood_outlined),
+                activeIcon: Icon(Icons.fastfood),
                 label: "Home"
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.edit),
+                icon: Icon(Icons.edit_outlined),
+                activeIcon: Icon(Icons.edit),
                 label: "Edit"
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+                icon: Icon(Icons.person_outline_rounded),
+                activeIcon: Icon(Icons.person),
                 label: "Profile"
             )
           ],
