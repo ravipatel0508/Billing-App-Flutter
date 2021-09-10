@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ItemCount extends ChangeNotifier{
-  int _currentIndex = 0;
+  int _currentIndex = 2;
   List<int> _itemCount = [0,0,0];
   double _totalCost = 0;
   List<double> _cost = [0.0, 0.0, 0.0];
