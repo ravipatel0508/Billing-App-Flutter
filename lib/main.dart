@@ -63,6 +63,7 @@ class _MainPageState extends State<MainPage> {
                 label: "Profile"
             )
           ],
+        selectedItemColor: Colors.green,
         currentIndex: context.watch<ItemCount>().currentIndex,
         onTap: (value) => context.read<ItemCount>().setIndex(value),
       ),

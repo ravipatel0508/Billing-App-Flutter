@@ -69,7 +69,8 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 8),
           RaisedButton(
             onPressed: () async{
-              await generatePDF(value.itemName, value.itemPrice, value.itemCount, value.cost);
+              //await generatePDF(value.itemName, value.itemPrice, value.itemCount, value.cost);
+              pdfGenerator(value.itemName, value.itemPrice, value.itemCount, value.cost);
             },
             color: Colors.green,
             padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
