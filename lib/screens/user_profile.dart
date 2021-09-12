@@ -11,24 +11,32 @@ class UserInfo extends StatelessWidget {
       child: Column(
         children: [
           ProfilePic(),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.all(20),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                backgroundColor: Colors.black12
-              ),
-                onPressed: (){}, 
-                child: Row(
-                  children: [
-                    SvgPicture.asset("assets/icons/Settings.svg"),
-                    SizedBox(width: 20),
-                    Expanded(child: Text("My Account",style: TextStyle(color: Colors.white),)),
-                    Icon(Icons.arrow_forward_ios)
-                  ],
-                )),
-          )
+          SizedBox(height: 20),
+          ProfileMenu(
+            text: "My Account",
+            icon: "assets/icons/User Icon.svg",
+            press: () => {},
+          ),
+          ProfileMenu(
+            text: "Notifications",
+            icon: "assets/icons/Bell.svg",
+            press: () {},
+          ),
+          ProfileMenu(
+            text: "Settings",
+            icon: "assets/icons/Bell.svg",
+            press: () {},
+          ),
+          ProfileMenu(
+            text: "Help Center",
+            icon: "assets/icons/Question mark.svg",
+            press: () {},
+          ),
+          ProfileMenu(
+            text: "Log Out",
+            icon: "assets/icons/Log out.svg",
+            press: () {},
+          ),
         ],
       ),
     );
@@ -52,6 +60,8 @@ class ProfileMenu extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextButton(
         style: TextButton.styleFrom(
+          primary: Colors.black38,
+          elevation: 3,
           padding: EdgeInsets.all(20),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: Color(0xFFF5F6F9),
@@ -59,9 +69,10 @@ class ProfileMenu extends StatelessWidget {
         onPressed: press,
         child: Row(
           children: [
-            SvgPicture.asset(icon,
+            SvgPicture.asset(
+              icon,width: 22,color: Colors.green,
               //color: Color(0xFFFF7643),
-              width: 22,),
+            ),
             SizedBox(width: 20),
             Expanded(child: Text(text)),
             Icon(Icons.arrow_forward_ios),
@@ -88,7 +99,8 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/Images/pizza.png"),
+            backgroundImage: AssetImage("assets/Images/burger.png"),
+            backgroundColor: Colors.transparent,
           ),
           Positioned(
             right: -16,
@@ -98,6 +110,7 @@ class ProfilePic extends StatelessWidget {
               width: 46,
               child: TextButton(
                 style: TextButton.styleFrom(
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
                     side: BorderSide(color: Colors.white),
@@ -106,7 +119,7 @@ class ProfilePic extends StatelessWidget {
                   backgroundColor: Color(0xFFF5F6F9),
                 ),
                 onPressed: () {},
-                child: SvgPicture.asset("assets/icons/Camera Icon.svg"),
+                child:SvgPicture.asset("assets/icons/Camera Icon.svg",color: Colors.green),
               ),
             ),
           )

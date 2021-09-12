@@ -5,9 +5,10 @@ class EditInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Center(
       child: FlutterLogo(
         style: FlutterLogoStyle.markOnly,
+        size: 50,
       ),
     );
   }

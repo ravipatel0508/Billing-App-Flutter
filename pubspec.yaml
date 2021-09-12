@@ -23,9 +23,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   provider: 6.0.0
   google_fonts: 2.1.0
   flutter_svg: ^0.22.0
+
+  syncfusion_flutter_pdf: ^19.2.60-beta
+  open_file: ^3.2.1
+  path_provider: ^2.0.3
 
 
   # The following adds the Cupertino Icons font to your application.

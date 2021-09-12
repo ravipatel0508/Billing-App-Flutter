@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'homePage/pdfGenerator.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -21,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade100,
-      body: Consumer(
+      body: Consumer<ItemCount>(
         builder: (context, value, child) {
           return Builder(
             builder: (context) {
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
                   createHeader(),
                   createSubTitle(),
                   createCartList(context),
-                  footer(context),
+                  footer(context, value),
                 ],
               );
             },
@@ -40,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  footer(BuildContext context) {
+  footer(BuildContext context, ItemCount value) {
     return Container(
       margin: EdgeInsets.only(top: 16),
       child: Column(
@@ -59,20 +61,25 @@ class _HomePageState extends State<HomePage> {
               Container(
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
-                  '\$${context.watch<ItemCount>().totalCost}',
+                  '\$${value.totalCost}',
                 ),
               ),
             ],
           ),
           SizedBox(height: 8),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () async{
+              await generatePDF(value.itemName, value.itemPrice, value.itemCount, value.cost);
+            },
             color: Colors.green,
             padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(24))),
             child: Text(
               "Checkout",
+              style: TextStyle(
+                color: Colors.white
+              ),
             ),
           ),
           SizedBox(height: 8),

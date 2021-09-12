@@ -12,6 +12,7 @@ class ItemCount extends ChangeNotifier{
   int get currentIndex => _currentIndex;
   List<int> get itemCount => _itemCount;
   double get totalCost => _totalCost;
+  List<double> get cost => _cost;
   List<String> get itemName => _itemName;
   List<double> get itemPrice => _itemPrice;
 
