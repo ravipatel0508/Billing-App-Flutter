@@ -8,6 +8,7 @@ class ItemCount extends ChangeNotifier {
   int _currentIndex = 0;
   double _totalCost = 0;
 
+
   int get currentIndex => _currentIndex;
   double get totalCost => _totalCost;
   List<int> get itemCount => data.itemCount;
@@ -50,4 +51,12 @@ class ItemCount extends ChangeNotifier {
     _totalCost = cost;
     notifyListeners();
   }
+
+  void resetItemCount(int index){
+    data.itemCount[index] = 0;
+    data.cost[index] = data.itemPrice[index] * data.itemCount[index];
+    totalPrice();
+    notifyListeners();
+  }
+
 }

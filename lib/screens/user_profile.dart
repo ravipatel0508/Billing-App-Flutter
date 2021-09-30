@@ -24,7 +24,7 @@ class UserInfo extends StatelessWidget {
           ),
           ProfileMenu(
             text: "Settings",
-            icon: "assets/icons/Bell.svg",
+            icon: "assets/icons/Settings.svg",
             press: () {},
           ),
           ProfileMenu(
