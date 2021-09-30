@@ -31,6 +31,7 @@ dependencies:
   syncfusion_flutter_pdf: ^19.2.60-beta
   open_file: ^3.2.1
   path_provider: ^2.0.3
+  google_nav_bar: ^5.0.5
 
 
   # The following adds the Cupertino Icons font to your application.

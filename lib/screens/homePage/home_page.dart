@@ -1,9 +1,10 @@
+import 'package:billing_application/data/data.dart';
 import 'package:billing_application/provider/item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'homePage/pdfGenerator.dart';
+import 'pdfGenerator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,13 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  List<String> _img = [
-    'assets/Images/fries.png',
-    'assets/Images/fries.png',
-    'assets/Images/pizza.png'
-  ];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +26,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   createHeader(),
                   createSubTitle(),
-                  createCartList(context),
+                  createCartList(),
                   footer(context, value),
                 ],
               );
@@ -68,9 +63,9 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 8),
           RaisedButton(
-            onPressed: () async{
-              //await generatePDF(value.itemName, value.itemPrice, value.itemCount, value.cost);
-              pdfGenerator(value.itemName, value.itemPrice, value.itemCount, value.cost);
+            onPressed: () async {
+              await pdfGenerator(
+                  value.itemName, value.itemPrice, value.itemCount, value.cost);
             },
             color: Colors.green,
             padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
@@ -78,9 +73,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.all(Radius.circular(24))),
             child: Text(
               "Checkout",
-              style: TextStyle(
-                color: Colors.white
-              ),
+              style: TextStyle(color: Colors.white),
             ),
           ),
           SizedBox(height: 8),
@@ -110,11 +103,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  createCartList(BuildContext context) {
+  createCartList() {
+    Data data = Data();
+
     return ListView.builder(
       shrinkWrap: true,
       primary: false,
-      itemCount: 3,
+      itemCount: data.itemImage.length,
       itemBuilder: (context, position) {
         return Stack(
           children: <Widget>[
@@ -126,14 +121,15 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
+                    margin:
+                        EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
                     width: 70,
                     height: 70,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(14)),
                         color: Colors.white,
                         image: DecorationImage(
-                            image: AssetImage(_img[position]))),
+                            image: AssetImage(data.itemImage[position]))),
                   ),
                   Expanded(
                     child: Container(
@@ -165,7 +161,9 @@ class _HomePageState extends State<HomePage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
                                       InkWell(
-                                        onTap: () => context.read<ItemCount>().decrement(position),
+                                        onTap: () => context
+                                            .read<ItemCount>()
+                                            .decrement(position),
                                         child: Icon(
                                           Icons.remove,
                                           size: 24,
@@ -181,7 +179,9 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       InkWell(
-                                        onTap:() =>  context.read<ItemCount>().increment(position),
+                                        onTap: () => context
+                                            .read<ItemCount>()
+                                            .increment(position),
                                         child: Icon(
                                           Icons.add,
                                           size: 24,
