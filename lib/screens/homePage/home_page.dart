@@ -1,36 +1,39 @@
+import 'dart:developer';
+
 import 'package:billing_application/data/data.dart';
 import 'package:billing_application/provider/item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'pdfGenerator.dart';
+import 'pdf_generator.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
+  final Data data = Data();
 
-class _HomePageState extends State<HomePage> {
-  
   @override
   Widget build(BuildContext context) {
+    log('HomePage');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade100,
       body: Consumer<ItemCount>(
         builder: (context, value, child) {
-          return Builder(
-            builder: (context) {
-              return ListView(
-                children: <Widget>[
-                  createHeader(),
-                  createSubTitle(),
-                  createCartList(),
-                  footer(context, value),
-                ],
-              );
-            },
+          return ListView(
+            children: <Widget>[
+              createHeader(),
+              createSubTitle(),
+              createCartList(value),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   primary: false,
+              //   itemCount: data.itemImage.length,
+              //   itemBuilder: (context, position) {
+              //     return cartList(position);
+              //   },
+              // ),
+              footer(context, value),
+            ],
           );
         },
       ),
@@ -51,26 +54,28 @@ class _HomePageState extends State<HomePage> {
                 margin: EdgeInsets.only(left: 30),
                 child: Text(
                   "Total",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(right: 30),
                 child: Text(
-                  '\$${value.totalCost}',
+                  '\₹ ${value.totalCost}',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
               ),
             ],
           ),
           SizedBox(height: 8),
-          RaisedButton(
+          ElevatedButton(
             onPressed: () async {
-              await pdfGenerator(
-                  value.itemName, value.itemPrice, value.itemCount, value.cost);
+              await pdfGenerator(value.itemName, value.itemPrice, value.itemCount, value.cost);
             },
-            color: Colors.green,
-            padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(24))),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: EdgeInsets.only(top: 12, left: 60, right: 60, bottom: 12),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(24))),
+            ),
             child: Text(
               "Checkout",
               style: TextStyle(color: Colors.white),
@@ -97,40 +102,136 @@ class _HomePageState extends State<HomePage> {
     return Container(
       alignment: Alignment.topLeft,
       child: Text(
-        "Total(3) Items",
+        "Total(${data.itemImage.length}) Items",
       ),
       margin: EdgeInsets.only(left: 12, top: 4),
     );
   }
 
-  createCartList() {
-    Data data = Data();
+  // cartList(int position) {
+  //   return Stack(
+  //     children: <Widget>[
+  //       Container(
+  //         margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+  //         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16))),
+  //         child: Row(
+  //           children: <Widget>[
+  //             Container(
+  //               margin: EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
+  //               width: 70,
+  //               height: 70,
+  //               decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.all(Radius.circular(14)),
+  //                   color: Colors.white,
+  //                   image: DecorationImage(image: AssetImage(data.itemImage[position]))),
+  //             ),
+  //             Expanded(
+  //               child: Container(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Column(
+  //                   mainAxisSize: MainAxisSize.max,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: <Widget>[
+  //                     Container(
+  //                       padding: EdgeInsets.only(right: 8, top: 4),
+  //                       child: Text(
+  //                         context.watch<ItemCount>().itemName[position],
+  //                         maxLines: 2,
+  //                         softWrap: true,
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 6),
+  //                     Container(
+  //                       child: Row(
+  //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                         children: <Widget>[
+  //                           Text(
+  //                             '\$${context.watch<ItemCount>().itemPrice[position]}',
+  //                           ),
+  //                           Padding(
+  //                             padding: const EdgeInsets.all(8.0),
+  //                             child: Row(
+  //                               mainAxisAlignment: MainAxisAlignment.center,
+  //                               crossAxisAlignment: CrossAxisAlignment.end,
+  //                               children: <Widget>[
+  //                                 InkWell(
+  //                                   onTap: () => context.read<ItemCount>().decrement(position),
+  //                                   child: Icon(
+  //                                     Icons.remove,
+  //                                     size: 24,
+  //                                     color: Colors.grey.shade700,
+  //                                   ),
+  //                                 ),
+  //                                 Container(
+  //                                   color: Colors.grey.shade200,
+  //                                   padding: const EdgeInsets.only(bottom: 2, right: 12, left: 12),
+  //                                   child: Text(
+  //                                     '${context.watch<ItemCount>().itemCount[position]}',
+  //                                   ),
+  //                                 ),
+  //                                 InkWell(
+  //                                   onTap: () => context.read<ItemCount>().increment(position),
+  //                                   child: Icon(
+  //                                     Icons.add,
+  //                                     size: 24,
+  //                                     color: Colors.grey.shade700,
+  //                                   ),
+  //                                 )
+  //                               ],
+  //                             ),
+  //                           )
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               flex: 100,
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //       Align(
+  //         alignment: Alignment.topRight,
+  //         child: Container(
+  //           width: 24,
+  //           height: 24,
+  //           alignment: Alignment.center,
+  //           margin: EdgeInsets.only(right: 10, top: 8),
+  //           child: InkWell(
+  //             onTap: () => context.read<ItemCount>().resetItemCount(position),
+  //             child: Icon(
+  //               Icons.close,
+  //               color: Colors.white,
+  //               size: 20,
+  //             ),
+  //           ),
+  //           decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)), color: Colors.green),
+  //         ),
+  //       )
+  //     ],
+  //   );
+  // }
 
+  createCartList(ItemCount value) {
     return ListView.builder(
       shrinkWrap: true,
       primary: false,
       itemCount: data.itemImage.length,
-      itemBuilder: (context, position) {
+      itemBuilder: (context, index) {
         return Stack(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(16))),
+              margin: EdgeInsets.only(left: 16, right: 16, top: 26),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16))),
               child: Row(
                 children: <Widget>[
-                  Container(
-                    margin:
-                        EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(14)),
-                        color: Colors.white,
-                        image: DecorationImage(
-                            image: AssetImage(data.itemImage[position]))),
+                  Image.asset(
+                    data.itemImage[index],
+                    height: 80,
+                    width: 80,
                   ),
+                  SizedBox(width: 8),
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
@@ -138,66 +239,68 @@ class _HomePageState extends State<HomePage> {
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(right: 8, top: 4),
-                            child: Text(
-                              context.watch<ItemCount>().itemName[position],
-                              maxLines: 2,
-                              softWrap: true,
-                            ),
+                          Text(
+                            value.itemName[index],
+                            style: TextStyle(fontSize: 17),
                           ),
-                          SizedBox(height: 6),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  '\$${context.watch<ItemCount>().itemPrice[position]}',
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                '\₹ ${value.itemPrice[index]}',
+                                style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 20,
+                                      onPressed: () => value.decrement(index),
+                                      icon: Icon(Icons.remove),
+                                    ),
+                                    // InkWell(
+                                    //   onTap: () => value.decrement(index),
+                                    //   child: Icon(
+                                    //     Icons.remove,
+                                    //     size: 24,
+                                    //     color: Colors.grey.shade700,
+                                    //   ),
+                                    // ),
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      color: Colors.grey.shade200,
+                                      padding: const EdgeInsets.only(bottom: 2, right: 12, left: 12),
+                                      child: Text(
+                                        '${context.watch<ItemCount>().itemCount[index]}',
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    IconButton(
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 20,
+                                      onPressed: () => value.increment(index),
+                                      icon: Icon(Icons.add),
+                                    ),
+                                    // InkWell(
+                                    //   onTap: () => value.increment(index),
+                                    //   child: Icon(
+                                    //     Icons.add,
+                                    //     size: 24,
+                                    //     color: Colors.grey.shade700,
+                                    //   ),
+                                    // ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () => context
-                                            .read<ItemCount>()
-                                            .decrement(position),
-                                        child: Icon(
-                                          Icons.remove,
-                                          size: 24,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                      ),
-                                      Container(
-                                        color: Colors.grey.shade200,
-                                        padding: const EdgeInsets.only(
-                                            bottom: 2, right: 12, left: 12),
-                                        child: Text(
-                                          '${context.watch<ItemCount>().itemCount[position]}',
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () => context
-                                            .read<ItemCount>()
-                                            .increment(position),
-                                        child: Icon(
-                                          Icons.add,
-                                          size: 24,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              )
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    flex: 100,
                   )
                 ],
               ),
@@ -208,18 +311,16 @@ class _HomePageState extends State<HomePage> {
                 width: 24,
                 height: 24,
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(right: 10, top: 8),
+                margin: EdgeInsets.only(right: 10, top: 15),
                 child: InkWell(
-                  onTap: () => context.read<ItemCount>().resetItemCount(position),
+                  onTap: () => value.resetItemCount(index),
                   child: Icon(
                     Icons.close,
                     color: Colors.white,
                     size: 20,
                   ),
                 ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    color: Colors.green),
+                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)), color: Colors.green),
               ),
             )
           ],

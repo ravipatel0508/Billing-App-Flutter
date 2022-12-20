@@ -2,12 +2,10 @@ import 'package:billing_application/data/data.dart';
 import 'package:flutter/cupertino.dart';
 
 class ItemCount extends ChangeNotifier {
-
   Data data = Data();
-  
+
   int _currentIndex = 0;
   double _totalCost = 0;
-
 
   int get currentIndex => _currentIndex;
   double get totalCost => _totalCost;
@@ -52,11 +50,10 @@ class ItemCount extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetItemCount(int index){
+  void resetItemCount(int index) {
     data.itemCount[index] = 0;
     data.cost[index] = data.itemPrice[index] * data.itemCount[index];
     totalPrice();
     notifyListeners();
   }
-
 }

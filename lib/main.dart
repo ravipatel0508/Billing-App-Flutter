@@ -7,10 +7,12 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ItemCount(),
-    child: MyApp(),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ItemCount(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,8 +21,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Billling App',
-      home: SafeArea(child: MainPage()),
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
+      home: MainPage(),
     );
   }
 }
@@ -38,36 +44,37 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: currentTab[context.watch<ItemCount>().currentIndex],
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-          child: GNav(
-            rippleColor: Colors.grey[300]!,
-            hoverColor: Colors.grey[100]!,
-            gap: 8,
-            activeColor: Colors.green,
-            iconSize: 24,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            duration: Duration(milliseconds: 400),
-            tabBackgroundColor: Colors.grey[100]!,
-            color: Colors.black,
-            tabs: [
-              GButton(
-                icon: Icons.home_filled,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.edit,
-                text: 'Edit',
-              ),
-              GButton(
-                icon: Icons.person,
-                text: 'Profile',
-              ),
-            ],
-            selectedIndex: context.watch<ItemCount>().currentIndex,
-            onTabChange: (value) => context.read<ItemCount>().setIndex(value),
-          ),
-        ));
+      body: currentTab[context.watch<ItemCount>().currentIndex],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+        child: GNav(
+          rippleColor: Colors.grey[300]!,
+          hoverColor: Colors.grey[100]!,
+          gap: 8,
+          activeColor: Colors.green,
+          iconSize: 24,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          duration: Duration(milliseconds: 400),
+          tabBackgroundColor: Colors.grey[100]!,
+          color: Colors.black,
+          tabs: [
+            GButton(
+              icon: Icons.home_filled,
+              text: 'Home',
+            ),
+            GButton(
+              icon: Icons.edit,
+              text: 'Edit',
+            ),
+            GButton(
+              icon: Icons.person,
+              text: 'Profile',
+            ),
+          ],
+          selectedIndex: context.watch<ItemCount>().currentIndex,
+          onTabChange: (value) => context.read<ItemCount>().setIndex(value),
+        ),
+      ),
+    );
   }
 }
