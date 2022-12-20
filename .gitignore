@@ -46,5 +46,5 @@ app.*.map.json
 /android/app/release
 
 
-# comment assets folder
 /assets/icons/
+lib/screens/user_profile.dart

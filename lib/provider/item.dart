@@ -1,7 +1,7 @@
 import 'package:billing_application/data/data.dart';
 import 'package:flutter/cupertino.dart';
 
-class ItemCount extends ChangeNotifier {
+class AppProvider extends ChangeNotifier {
   Data data = Data();
 
   int _currentIndex = 0;

@@ -7,11 +7,11 @@ class UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          ProfilePic(),
-          SizedBox(height: 20),
+          const ProfilePic(),
+          const SizedBox(height: 20),
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
@@ -57,32 +57,31 @@ class ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextButton(
         style: TextButton.styleFrom(
-          primary: Colors.black38,
+          foregroundColor: Colors.black38,
           elevation: 3,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          backgroundColor: Color(0xFFF5F6F9),
+          backgroundColor: const Color(0xFFF5F6F9),
         ),
         onPressed: press,
         child: Row(
           children: [
             SvgPicture.asset(
-              icon,width: 22,color: Colors.green,
+              icon, width: 22, color: Colors.green,
               //color: Color(0xFFFF7643),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(child: Text(text)),
-            Icon(Icons.arrow_forward_ios),
+            const Icon(Icons.arrow_forward_ios),
           ],
         ),
       ),
     );
   }
 }
-
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
@@ -98,7 +97,7 @@ class ProfilePic extends StatelessWidget {
         fit: StackFit.expand,
         clipBehavior: Clip.none,
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             backgroundImage: AssetImage("assets/Images/burger.png"),
             backgroundColor: Colors.transparent,
           ),
@@ -113,13 +112,13 @@ class ProfilePic extends StatelessWidget {
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
-                    side: BorderSide(color: Colors.white),
+                    side: const BorderSide(color: Colors.white),
                   ),
-                  primary: Colors.white,
-                  backgroundColor: Color(0xFFF5F6F9),
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color(0xFFF5F6F9),
                 ),
                 onPressed: () {},
-                child:SvgPicture.asset("assets/icons/Camera Icon.svg",color: Colors.green),
+                child: SvgPicture.asset("assets/icons/Camera Icon.svg", color: Colors.green),
               ),
             ),
           )
